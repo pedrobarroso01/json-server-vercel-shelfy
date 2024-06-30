@@ -66,7 +66,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-            fetch('http://localhost:3000/books')
+            fetch('https://shelfy.vercel.app/books')
                 .then(response => response.json())
                 .then(books => {
                     const selectBook = document.getElementById('livros');
@@ -116,7 +116,7 @@
                 };
 
                 // Envia os dados para o JSON Server
-                fetch('http://localhost:3000/estantes', {
+                fetch('https://shelfy.vercel.app/estantes', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -147,7 +147,7 @@
                     imagem: null
                 };
 
-                fetch('http://localhost:3000/estantes', {
+                fetch('https://shelfy.vercel.app/estantes', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

@@ -80,7 +80,7 @@
         const livroId = urlParams.get('id');
 
         // Carregar as estantes existentes no select
-        fetch('http://localhost:3000/estantes')
+        fetch('https://shelfy.vercel.app/estantes')
             .then(response => response.json())
             .then(estantes => {
                 const selectShelfy = document.getElementById('shelfy');
@@ -94,7 +94,7 @@
 
                 // Se já existe um livro sendo editado, seleciona a estante correspondente
                 if (livroId) {
-                    fetch(`http://localhost:3000/books/${livroId}`)
+                    fetch(`https://shelfy.vercel.app/books/${livroId}`)
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Erro ao carregar os dados do livro. Status: ' + response.status);
@@ -192,7 +192,7 @@
             const livroId = document.getElementById('livro-id').value;
 
             if (confirm(`Tem certeza que deseja excluir o livro?`)) {
-                fetch(`http://localhost:3000/books/${livroId}`, {
+                fetch(`https://shelfy.vercel.app/books/${livroId}`, {
                     method: 'DELETE'
                 })
                 .then(response => {
@@ -215,7 +215,7 @@
 
         // Função para enviar os dados editados para o servidor
         function enviarDadosEditados(livroEditado) {
-            fetch(`http://localhost:3000/books/${livroEditado.id}`, {
+            fetch(`https://shelfy.vercel.app/books/${livroEditado.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

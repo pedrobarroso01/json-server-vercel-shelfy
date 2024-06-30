@@ -39,7 +39,7 @@
           return; // Encerra a execução da função caso shelfyId seja nulo
       }
 
-      fetch(`http://localhost:3000/books?shelfy=${shelfyId}`)
+      fetch(`https://shelfy.vercel.app/books?shelfy=${shelfyId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao carregar os dados dos livros. Status: ' + response.status);

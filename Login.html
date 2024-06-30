@@ -47,7 +47,7 @@
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      fetch(`https://shelfy-aoblctb25-t1-shelfy.vercel.app/usuarios?email=${email}`)
+      fetch(`https://shelfy.vercel.app/usuarios?email=${email}`)
         .then(response => response.json())
         .then(users => {
           if (users.length > 0) {
