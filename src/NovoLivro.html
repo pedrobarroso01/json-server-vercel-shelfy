@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="NovoLivro.css" rel="stylesheet">
+    <title>Adicionar Livro</title>
+</head>
+<body>
+    <header>
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link active" href="ProcuraLivro.html">Página Inicial</a>
+            </li>
+            <li class="nav-item">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-person-circle"></i>
+                </a>
+            </li>
+        </ul>
+    </header>
+
+    <div id="formulario">
+        <form id="book-form">
+            <table>
+                <tr>
+                    <label>Título do Livro</label> <br>
+                    <input type="text" id="titulo" required>
+                </tr> <br>
+                <tr>
+                    <label>Tags</label> <br>
+                    <input type="text" id="tags">
+                </tr> <br>
+                <tr>
+                    <label>Autor</label> <br>
+                    <input type="text" id="autor" required>
+                </tr> <br>
+                <tr>
+                    <label>Data</label> <br>
+                    <input type="date" id="data" required>
+                </tr> <br>
+                <tr>
+                    <label>Shelfy</label> <br>
+                    
+                        <select name="shelfy" id="shelfy">
+                            <option></option>
+                            <!-- Opções de estantes serão inseridas dinamicamente aqui -->
+                        </select>
+                        <!-- Campo oculto para armazenar o ID da estante selecionada -->
+                        <input type="hidden" id="shelfy-id" name="shelfy-id">
+                    
+                </tr> <br> <br>
+                <tr>
+                        <input type="radio" name="status" value="NaoIniciado" required> Não Iniciado
+                        <input type="radio" name="status" value="Andamento" required> Em Andamento
+                        <input type="radio" name="status" value="Completo" required> Completo
+                </tr> <br><br>
+                <tr> 
+                    <label>Adicionar Imagem da Capa</label>   <br>
+                    <input type="file" id="imagem" accept="image/*">
+                </tr> <br> <br>
+                <tr>
+                        <button type="button" onclick="window.location.href='ProcuraLivro.html'">Voltar</button>
+                        <button type="submit">Concluído</button>
+
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div id="info_livros">
+        <form>
+            <table>
+                <tr>
+                    <td colspan="2"><h1>Título do Livro</h1></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><img src="../imagem/foto_livro.jpg" alt="Capa do Livro" id="preview-img" style="max-width: 100%; height: auto;"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2LcPc+g4AM4F3/2jRvPqU6tv18zJfE3Mo/tl/6RLd6" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('imagem').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+    
+            reader.onload = function(e) {
+                document.getElementById('preview-img').src = e.target.result;
+            };
+    
+            reader.readAsDataURL(file);
+        });
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carregar as estantes existentes no select
+            fetch('http://localhost:3000/estantes')
+                .then(response => response.json())
+                .then(estantes => {
+                    const selectShelfy = document.getElementById('shelfy');
+    
+                    estantes.forEach(estante => {
+                        const option = document.createElement('option');
+                        option.value = estante.id; // Armazena o ID da estante como valor da opção
+                        option.textContent = estante.shelfy;
+                        selectShelfy.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar estantes:', error));
+        });
+    
+        document.getElementById('book-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+
+    // Captura dos valores dos campos do formulário
+    const titulo = document.getElementById('titulo').value || null;
+    const tags = document.getElementById('tags').value || null;
+    const autor = document.getElementById('autor').value || null;
+    const data = document.getElementById('data').value || null;
+    const shelfyId = document.getElementById('shelfy').value || null; // Captura o ID da estante selecionada
+    const status = document.querySelector('input[name="status"]:checked') ? document.querySelector('input[name="status"]:checked').value : null;
+    const imagem = document.getElementById('preview-img').src || null;
+
+    // Criação do objeto do livro a ser enviado
+    const book = {
+        titulo,
+        tags,
+        autor,
+        data,
+        shelfy: shelfyId, // Envia o ID da estante ao invés do nome
+        status,
+        imagem
+    };
+
+    // Enviar o novo livro para o endpoint de livros
+    fetch('http://localhost:3000/books', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(book)
+    })
+    .then(response => response.json())
+    .then(newBook => {
+        console.log('Livro adicionado:', newBook);
+
+        // Buscar a estante correspondente para atualizar os livros
+        if(shelfyId != null) {
+            fetch(`http://localhost:3000/estantes/${shelfyId}`)
+                .then(response => response.json())
+                .then(shelfy => {
+                    // Verificar se o array de livros existe na estante
+                    if (!shelfy.livros) {
+                        shelfy.livros = []; // Inicializa o array se não existir
+                    }
+                    
+                    // Adicionar o novo ID do livro ao array de livros da estante
+                    shelfy.livros.push(newBook.id);
+
+                    // Atualizar a estante com o novo array de livros
+                    return fetch(`http://localhost:3000/estantes/${shelfyId}`, {
+                        method: 'PUT', // Usar PUT para substituir completamente a estante
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(shelfy)
+                    });
+                })
+                .then(response => response.json())
+                .then(updatedShelfy => {
+                    console.log('Estante atualizada:', updatedShelfy);
+                    alert('Livro adicionado com sucesso!');
+                    // Redirecionamento ou outra ação após adicionar o livro
+                    // window.location.href = 'PaginaInicial.html';
+                })
+                .catch(error => {
+                    console.error('Erro ao atualizar estante:', error);
+                    alert('Erro ao atualizar a estante com o novo livro.');
+                });
+        }
+
+    })
+    .catch(error => {
+        console.error('Erro ao adicionar livro:', error);
+        alert('Erro ao adicionar o livro.');
+    });
+});
+    </script>    
+</body>
+</html>

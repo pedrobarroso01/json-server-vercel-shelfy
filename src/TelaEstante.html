@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="TelaEstante.css"> <!-- Arquivo de estilos personalizados -->
+    <title>Shelfy</title>
+</head>
+<body>
+
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <a class="nav-link active" href="ProcuraLivro.html">Página Inicial</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-person-circle"></i>
+      </a>
+    </li>
+  </ul>
+
+  <div class="container mt-5" id="books-container">
+      <!-- Livros da estante serão inseridos aqui dinamicamente -->
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2LcPc+g4AM4F3/2jRvPqU6tv18zJfE3Mo/tl/6RLd6" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const shelfyId = urlParams.get('id'); 
+
+      // Verificar se shelfyId é nulo ou vazio
+      if (!shelfyId) {
+          console.error('ID da estante não encontrado na URL.');
+          return; // Encerra a execução da função caso shelfyId seja nulo
+      }
+
+      fetch(`http://localhost:3000/books?shelfy=${shelfyId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao carregar os dados dos livros. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(livros => {
+            // Filtrar os livros onde shelfy não é null
+            const livrosFiltrados = livros.filter(livro => livro.shelfy !== null);
+
+            const booksContainer = document.getElementById('books-container');
+
+            // Verificar se há livros a serem exibidos
+            if (livrosFiltrados.length > 0) {
+                livrosFiltrados.forEach(livro => {
+                    const bookCard = `
+                        <div class="book">
+                            <div class="cover">
+                                <img src="${livro.imagem}" alt="Capa do Livro">
+                            </div>
+                            <div class="details">
+                                <h2>${livro.titulo}</h2>
+                                <p>Autor: ${livro.autor}</p>
+                                <p>Data: ${livro.data}</p>
+                                <p>Status: ${livro.status}</p>
+                                <p>Tags: ${livro.tags}</p>
+                                <a href="EditarLivros.html?id=${livro.id}" class="edit">Editar</a>
+                            </div>
+                        </div>
+                    `;
+                    booksContainer.insertAdjacentHTML('beforeend', bookCard);
+                });
+            } else {
+                console.error('Nenhum livro encontrado para a estante com id=' + shelfyId);
+            }
+        })
+        .catch(error => console.error('Erro ao carregar dados:', error));
+    });
+  </script>
+</body>
+</html>

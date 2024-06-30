@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="InteracaoEstante.css">
+    <title>Shelfy</title>
+</head>
+<body>
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <a class="nav-link active" href="ProcuraLivro.html">Pagina Inicial</a>
+    </li>
+  </ul>
+
+  <!-- Container dos livros -->
+  <div class="container mt-5">
+      <div class="row" id="shelf-container">
+          <!-- As estantes serão inseridas aqui dinamicamente -->
+      </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2LcPc+g4AM4F3/2jRvPqU6tv18zJfE3Mo/tl/6RLd6" crossorigin="anonymous"></script>
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+    fetch('http://localhost:3000/estantes')
+        .then(response => response.json())
+        .then(estantes => {
+            const container = document.getElementById('shelf-container');
+            estantes.forEach(estante => {
+                const card = `
+                    <div class="col-md-4 mb-4">
+                        <div class="card book-card">
+                            <a href="TelaEstante.html?id=${estante.id}">
+                                <img src="${estante.imagem}" class="card-img-top" alt="Livro">
+                                <div class="card-body">
+                                    <h5 class="card-title">${estante.shelfy}</h5>
+                                    <p class="card-text">Tags: ${estante.tags}</p>
+                                    <p class="card-text">Tema: ${estante.tema}</p>
+                                    <p class="card-text">Data: ${estante.data}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', card);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+  </script>
+</body>
+</html>

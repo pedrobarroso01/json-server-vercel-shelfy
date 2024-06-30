@@ -1,0 +1,100 @@
+/* Estilos para a barra de navegação */
+.nav {
+    background-color: #84bf99; /* Cor de fundo da barra de navegação */
+    padding: 10px 20px; /* Espaçamento interno */
+  }
+  
+  /* Estilos para os links na barra de navegação */
+  .nav-link {
+    color: #f2f2f2; /* Cor do texto dos links */
+    margin-right: 20px; /* Espaçamento entre os links */
+  }
+  
+  /* Estilos para o link ativo na barra de navegação */
+  .nav-link.active {
+    font-weight: bold; /* Estilo do link ativo */
+  }
+  
+  /* Estilos para o ícone de pessoa */
+  .bi-person-circle {
+    color: #fff; /* Cor do ícone de pessoa */
+  }
+  
+  /* Estilos para o botão de menu responsivo */
+  .navbar-toggler {
+    border: none; /* Remove a borda do botão */
+    background-color: transparent; /* Cor de fundo transparente */
+    color: #fff; /* Cor do ícone do botão */
+  }
+  
+  /* Estilos para o ícone do botão de menu responsivo */
+  .navbar-toggler-icon {
+    background-color: #fff; /* Cor do ícone do botão */
+    width: 20px; /* Largura do ícone */
+    height: 2px; /* Altura do ícone */
+  }
+ 
+ 
+ 
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    background-color: 84bf99;
+    width: 100%;
+    padding: 10px 0;
+}
+
+
+
+main {
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.option img {
+    width: 50px;
+    height: 50px;
+}
+
+.option p {
+    margin-top: 10px;
+    font-size: 1em;
+    color: #666;
+}
+
+a {
+    text-decoration: none;
+    color:black;
+}
+
+a:hover {
+    text-decoration: none;
+    color:#84bf99
+}

@@ -1,0 +1,52 @@
+/* Estilos para a barra de navegação */
+.nav {
+    background-color: #84bf99; /* Cor de fundo da barra de navegação */
+    padding: 10px 20px; /* Espaçamento interno */
+  }
+  
+  /* Estilos para os links na barra de navegação */
+  .nav-link {
+    color: #f2f2f2; /* Cor do texto dos links */
+    margin-right: 20px; /* Espaçamento entre os links */
+  }
+  
+  /* Estilos para o link ativo na barra de navegação */
+  .nav-link.active {
+    font-weight: bold; /* Estilo do link ativo */
+  }
+  
+  /* Estilos para o ícone de pessoa */
+  .bi-person-circle {
+    color: #fff; /* Cor do ícone de pessoa */
+  }
+  
+  /* Estilos para o botão de menu responsivo */
+  .navbar-toggler {
+    border: none; /* Remove a borda do botão */
+    background-color: transparent; /* Cor de fundo transparente */
+    color: #fff; /* Cor do ícone do botão */
+  }
+  
+  /* Estilos para o ícone do botão de menu responsivo */
+  .navbar-toggler-icon {
+    background-color: #fff; /* Cor do ícone do botão */
+    width: 20px; /* Largura do ícone */
+    height: 2px; /* Altura do ícone */
+  }
+  
+  body {
+    background-color: #59d979;
+    background-image: linear-gradient(to bottom, rgb(248, 248, 248), #59d979);
+}
+
+.badge-light {
+
+  font-size: 30px;
+
+
+}
+h5 {
+
+  font-size: 50px;
+}
+
